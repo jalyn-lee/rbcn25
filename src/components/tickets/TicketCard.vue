@@ -1,11 +1,13 @@
 <template>
-  <div :class="[props.hasDescription ? 'card-wrapper' : '']">
+  <div
+    :class="[props.hasDescription ? 'card-wrapper w-100 mx-auto d-flex align-center flex-wrap ga-3 flex-sm-nowrap' : '']">
     <a :href="props.href" target="_blank" :class="[
       props.href ? 'cursor-pointer' : 'suspended',
-      'card-link'
-    ]" :key="props.href ?? props.name">
+      props.hasDescription ? 'mx-auto' : '',
+      'card-link']" :key="props.href ?? props.name">
 
-      <v-card color="secondary" class="card-base py-3 px-4" elevation="2" rounded="lg">
+      <v-card color="secondary" :class="[props.hasDescription ? 'card-with-desc' : '', 'card-base py-3 px-4']"
+        elevation="2" rounded="lg">
         <v-card-item class="px-sm-2 px-0 pb-0">
           <div class="d-flex flex-column">
             <div class="label">
@@ -22,7 +24,7 @@
           </template>
         </v-card-item>
 
-        <v-card-item>
+        <v-card-item class="px-sm-2 px-0 pb-0">
           <div class="d-flex align-baseline justify-space-between flex-wrap flex-sm-nowrap">
             <div v-if="props.price"
               :class="[props.discountedPrice ? 'strike-through' : '', 'text-h4 discounted price']">
@@ -74,17 +76,10 @@ const ticketSaleInfo = computed(() => {
 
 <style scoped lang="scss">
 .card-wrapper {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: space-around;
+  justify-content: space-between;
 
-  @media (max-width: 800px) and (min-width: 600px) {
-    gap: 20px;
-  }
-
-  @media (max-width: 599.9px) {
-    flex-wrap: wrap;
+  @media (max-width: 960px) {
+    align-items: center;
   }
 }
 
@@ -101,6 +96,10 @@ const ticketSaleInfo = computed(() => {
   width: 400px;
   flex-wrap: wrap;
   overflow: hidden;
+
+  @media (max-width: 600px) {
+    margin: 0 auto
+  }
 }
 
 
@@ -114,14 +113,20 @@ const ticketSaleInfo = computed(() => {
   margin: auto;
   color: white;
 
-  @media (max-width: 800px) and (min-width: 600px) {
-    width: 280px;
-    height: 180px;
+  &.card-with-desc {
+    height: 230px;
   }
 
-  @media (max-width: 599.9px) {
-    width: 240px;
-    height: 160px;
+  &:not(.card-with-desc) {
+    @media (max-width: 800px) and (min-width: 600px) {
+      width: 280px;
+      height: 180px;
+    }
+
+    @media (max-width: 599.9px) {
+      width: 240px;
+      height: 160px;
+    }
   }
 
   &:hover {
@@ -185,7 +190,9 @@ const ticketSaleInfo = computed(() => {
   padding-left: 20px;
 
   @media (max-width: 800px) {
+    margin-top: 6px;
     grid-template-columns: repeat(1, 1fr);
+    font-size: 15px;
   }
 }
 
@@ -200,6 +207,11 @@ const ticketSaleInfo = computed(() => {
   &:before {
     content: unset;
   }
+
+  @media (max-width: 800px) {
+    margin: 0 !important;
+  }
+
 }
 
 .price {
